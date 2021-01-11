@@ -9,7 +9,7 @@ modules:
   imagePullPolicy: Always
   imagePrefix: registry.fit2cloud.com/fit2cloud3/        
   imageTag: IMAGE_TAG
-  vmService:
+  demo:
     image: demo
     replicas: 1
   busybox:
