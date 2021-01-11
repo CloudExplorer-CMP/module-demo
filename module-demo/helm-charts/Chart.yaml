@@ -1,0 +1,12 @@
+appVersion: "3.0.0"
+description: A Helm chart for deploying the vm-service
+name: fit2cloud-demo-deployment
+version: 3.0.0
+engine: gotpl
+home: https://fit2cloud.com
+icon: https://www.fit2cloud.com/images/home/favicon.bmp
+maintainers:
+- email: support@fit2cloud.com
+  name: fit2cloud
+sources:
+- https://github.com/CloudExplorer-CMP/vm-service.git

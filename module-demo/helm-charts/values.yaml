@@ -1,0 +1,20 @@
+cmp:                                                              
+  version: 3.0.0
+  logLevel: INFO
+mysql:
+  host: cmp-mysql
+  port: 3306
+modules:
+  imagePullSecret: registry-fit2cloud-key                          
+  imagePullPolicy: Always
+  imagePrefix: registry.fit2cloud.com/fit2cloud3/        
+  imageTag: 3.0.0
+  vmService:
+    image: demo
+    replicas: 1
+  busybox:
+    image: busybox
+    imageTag: latest
+    imagePullPolicy: IfNotPresent
+storage:
+  accessModes: ReadWriteMany

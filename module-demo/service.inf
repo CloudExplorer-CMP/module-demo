@@ -1,0 +1,7 @@
+name=模块样例
+module=module-demo
+module_description=CloudExplorer demo
+minimumFit2cloudVersion=3.0.0
+version_description=demo
+version=3.0.0
+created=2020-10-26 13:22:47

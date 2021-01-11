@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: demo
+  namespace: {{.Values.cmp.namespace}}
+spec:
+  replicas: {{.Values.modules.vmService.replicas}}
+  serviceName: "cmp-demo"
+  selector:
+    matchLabels:
+      app: fit2cloud-cmp-demo
+  template:
+    metadata:
+      labels:
+        app: fit2cloud-cmp-demo
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - fit2cloud-cmp-demo
+              topologyKey: kubernetes.io/hostname
+      initContainers:
+        - name: wait-mysql
+          image: {{.Values.modules.imagePrefix}}{{.Values.modules.busybox.image}}:{{.Values.modules.busybox.imageTag}}
+          imagePullPolicy: {{.Values.modules.busybox.imagePullPolicy}}
+          command:
+            - sh
+            - -c
+            - |
+              set -ex
+              until nc -zv {{ .Values.mysql.host }} {{ .Values.mysql.port }}; do sleep 5; done
+              sleep 10
+      containers:
+        - name: demo
+          image: {{.Values.modules.imagePrefix}}{{.Values.modules.demo.image}}:{{.Values.modules.imageTag}}
+          imagePullPolicy: {{.Values.modules.imagePullPolicy}}
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 300Mi
+              cpu: 0.1
+          ports:
+            - name: tcp
+              containerPort: 8080
+          volumeMounts:
+            - mountPath: /opt/fit2cloud/conf
+              name: opt-fit2cloud-config
+            - mountPath: /opt/fit2cloud/logs
+              name: cmp-logs
+      imagePullSecrets:
+        - name: {{.Values.modules.imagePullSecret}}
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: fit2cloud-config
+            items:
+            - key: fit2cloud.properties
+              path: fit2cloud.properties
+          name: opt-fit2cloud-config
+        - name: cmp-logs
+          {{if eq .Values.storage.accessModes "ReadWriteMany"}}
+          persistentVolumeClaim:
+            claimName: cmp-logs-pvc
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cmp-demo
+  namespace: {{.Values.cmp.namespace}}
+  labels:
+    app: fit2cloud-cmp-demo
+spec:
+  sessionAffinity: ClientIP
+  selector:
+    app: fit2cloud-cmp-demo
+  ports:
+    - name: tcp
+      port: 8080
+      protocol: TCP

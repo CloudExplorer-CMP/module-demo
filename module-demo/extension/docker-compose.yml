@@ -1,0 +1,21 @@
+version: '2.1'
+services:
+
+  vm-service:
+    image: registry.fit2cloud.com/fit2cloud3/module-demo:3.0.0
+    container_name: demo
+    ports:
+      - 8080:8080
+    volumes:
+      - share-volume:/opt/fit2cloud/share
+      - cmp-conf:/opt/fit2cloud/conf
+      - cmp-logs:/opt/fit2cloud/logs
+      - kube-project:/var/kobe/data/project
+    depends_on:
+      management-center:
+        condition: service_healthy
+    mem_limit: 1024m
+    networks:
+      - cmp-network
+
+
