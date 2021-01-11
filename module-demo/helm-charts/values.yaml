@@ -1,5 +1,5 @@
 cmp:                                                              
-  version: 3.0.0
+  version: IMAGE_TAG
   logLevel: INFO
 mysql:
   host: cmp-mysql
@@ -8,7 +8,7 @@ modules:
   imagePullSecret: registry-fit2cloud-key                          
   imagePullPolicy: Always
   imagePrefix: registry.fit2cloud.com/fit2cloud3/        
-  imageTag: 3.0.0
+  imageTag: IMAGE_TAG
   vmService:
     image: demo
     replicas: 1

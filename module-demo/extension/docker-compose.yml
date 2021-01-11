@@ -2,7 +2,7 @@ version: '2.1'
 services:
 
   vm-service:
-    image: registry.fit2cloud.com/fit2cloud3/module-demo:3.0.0
+    image: registry.fit2cloud.com/fit2cloud3/module-demo:IMAGE_TAG
     container_name: demo
     ports:
       - 8080:8080
