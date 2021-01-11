@@ -1,11 +1,11 @@
 version: '2.1'
 services:
 
-  vm-service:
+  module-demo:
     image: registry.fit2cloud.com/fit2cloud3/module-demo:IMAGE_TAG
     container_name: demo
     ports:
-      - 8080:8080
+      - 8888:8888
     volumes:
       - share-volume:/opt/fit2cloud/share
       - cmp-conf:/opt/fit2cloud/conf

@@ -126,7 +126,7 @@ management.endpoints.web.exposure.include=*
 
 ### 运行
 
-在工程目录下，执行 mvn clean spring-boot:run 即可在本地将模块运行起来，默认端口为 8080，可以通过访问 http://localhost:8080 来访问服务。
+在工程目录下，执行 mvn clean spring-boot:run 即可在本地将模块运行起来，默认端口为 8888，可以通过访问 http://localhost:8888 来访问服务。
 
 ### 测试
 
