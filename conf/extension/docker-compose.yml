@@ -3,7 +3,7 @@ services:
 
   module-demo:
     image: registry.fit2cloud.com/fit2cloud3/module-demo:IMAGE_TAG
-    container_name: demo
+    container_name: module-demo
     ports:
       - 8888:8888
     volumes:

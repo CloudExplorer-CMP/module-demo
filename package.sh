@@ -1,5 +1,5 @@
 echo "清理旧文件 ..."
-cd module-demo
+cd conf
 rm -rf *.tar.gz *.md5
 cd ..
 
@@ -12,11 +12,11 @@ fi
 version=`awk '/<version>[^<]+<\/version>/{gsub(/<version>|<\/version>/,"",$1);print $1;exit;}' pom.xml`
 echo "$module_version=$version" >> $property_file
 
-sed -i "s/IMAGE_TAG/$version/g"  module-demo/extension/docker-compose.yml
-sed -i "s/IMAGE_TAG/$version/g"  module-demo/helm-charts/values.yaml
+sed -i "s/IMAGE_TAG/$version/g"  conf/extension/docker-compose.yml
+sed -i "s/IMAGE_TAG/$version/g"  conf/helm-charts/values.yaml
 sed -i "s/IMAGE_TAG/$version/g"  Dockerfile
 
-base_image_url=`grep "image:" module-demo/extension/docker-compose.yml | awk -F "image: " '{print $NF}' | head -n 1`
+base_image_url=`grep "image:" conf/extension/docker-compose.yml | awk -F "image: " '{print $NF}' | head -n 1`
 base_image_name=`echo $base_image_url | awk -F"/" '{ print $NF }'`
 base_image=`echo $base_image_name | awk -F":" '{ print $1 }'`
 echo "编译工程源码 ..."
@@ -26,26 +26,26 @@ echo "构建扩展模块镜像 ..."
 docker build -t $base_image_url .
 docker push ${base_image_url}
 
-if [ -d module-demo/images ]; then
-  rm -rf module-demo/images
+if [ -d conf/images ]; then
+  rm -rf conf/images
 fi
-mkdir module-demo/images
+mkdir conf/images
 
 echo "导出 $base_image_name 镜像 ..."
-docker save -o module-demo/images/${base_image_name}.tar ${base_image_url}
+docker save -o conf/images/${base_image_name}.tar ${base_image_url}
 
-sed -i '/^version=/d' module-demo/service.inf
-echo "version=$version" >> module-demo/service.inf
+sed -i '/^version=/d' conf/service.inf
+echo "version=$version" >> conf/service.inf
 
-sed -i '/^created=/d' module-demo/service.inf
+sed -i '/^created=/d' conf/service.inf
 create=`date "+%Y-%m-%d %H:%M:%S"`
-echo "created=$create" >> module-demo/service.inf
+echo "created=$create" >> conf/service.inf
 
 echo "制作扩展模块安装包"
 install_file=$base_image-$version.tar.gz
 install_offline_file=$base_image-$version-offline.tar.gz
 
-cd module-demo
+cd conf
 
 tar zcf $install_file --exclude=images    ./*
 md5_file_name=${install_file}.md5
