@@ -138,10 +138,10 @@ management.endpoints.web.exposure.include=*
 
 本工程为 CloudExplorer 3.0 标准扩展模块示例工程，工程目录下包含了制作扩展包所必需的文件：
 - package.sh - CloudExplorer 提供的扩展包制作脚本，执行该脚本
-- CloudExplorer/extension/docker-compose.yml - docker-compose.yml 文件是一个定义服务、网络和卷的 YAML 文件
-- CloudExplorer/helm-charts/ - 存放Helm文件，用于在k8s环境部署
-- module-demo/service.ico - 扩展模块的图标文件
-- module-demo/service.inf - 扩展模块的描述文件，包含模块名称、描述、模块版本、对 CloudExplorer 云管平台的最低版本要求等
+- conf/extension/docker-compose.yml - docker-compose.yml 文件是一个定义服务、网络和卷的 YAML 文件
+- conf/helm-charts/ - 存放Helm文件，用于在k8s环境部署
+- conf/service.ico - 扩展模块的图标文件
+- conf/service.inf - 扩展模块的描述文件，包含模块名称、描述、模块版本、对 CloudExplorer 云管平台的最低版本要求等
 
 ### 扩展包的制作
 
