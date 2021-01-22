@@ -1,12 +1,14 @@
 FROM registry.fit2cloud.com/public/fabric8-java-alpine-openjdk8-jre:latest
 
+ARG IMAGE_TAG
+
 MAINTAINER FIT2CLOUD <support@fit2cloud.com>
 
 RUN mkdir -p /opt/apps
 
-ADD target/module-demo-IMAGE_TAG.jar /opt/apps
+ADD target/module-demo-$IMAGE_TAG.jar /opt/apps
 
-ENV JAVA_APP_JAR=/opt/apps/module-demo-IMAGE_TAG.jar
+ENV JAVA_APP_JAR=/opt/apps/module-demo-$IMAGE_TAG.jar
 
 ENV AB_OFF=true
 
