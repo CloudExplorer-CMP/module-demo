@@ -5,7 +5,7 @@
 
     <groupId>com.fit2cloud</groupId>
     <artifactId>module-demo</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <packaging>jar</packaging>
 
     <name>fit2cloud3.0-module-demo</name>
