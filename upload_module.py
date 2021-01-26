@@ -22,6 +22,7 @@ DEFAULT_F2C_DIR = '/tmp/f2cextension'
 DEFAULT_NEXUS_USE = 'admin'
 DEFAULT_NEXUS_PASSWD = 'admin123'
 DEFAULT_NEXUS_URL = 'http://localhost:8081'
+DEFAULT_DOCKER_REGISTRY_URL = 'http://localhost:8082'
 DEFAULT_INDXSERVER_URI = '/repository/cmp-raw-hosted/json/data.js'
 
 DEFAULT_LOCAL_REGISTRY_PORT = '8082'
@@ -29,6 +30,7 @@ DEFAULT_LOCAL_REGISTRY_PORT = '8082'
 parser = argparse.ArgumentParser(description='manual to this script')
 parser.add_argument('--module-file', type=str, default=None)
 parser.add_argument('--nexus-url', type=str, default=DEFAULT_NEXUS_URL)
+parser.add_argument('--docker-registry', type=str, default=DEFAULT_DOCKER_REGISTRY_URL)
 parser.add_argument('--nexus-user', type=str, default=DEFAULT_NEXUS_USE)
 parser.add_argument('--nexus-passwd', type=str, default=DEFAULT_NEXUS_PASSWD)
 args = parser.parse_args()
@@ -175,8 +177,7 @@ def load_image():
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
             p.wait()
             print(p.stdout.read())
-        os.system('docker login localhost:{0} - u {1} - p {2}'.format(DEFAULT_LOCAL_REGISTRY_PORT, args.nexus_user,
-                                                                      args.nexus_passwd))
+        os.system('docker login {0} -u {1} -p {2}'.format(args.docker_registry, args.nexus_user, args.nexus_passwd))
         docker_compose = module_info['module_temp_dir'] + '/extension/docker-compose.yml'
         image_command = "grep 'image:' %(docker_compose)s  | awk -F 'image: ' '{print $NF}'" % {'docker_compose': docker_compose}
         p = subprocess.Popen(image_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, shell=True)
